@@ -15,10 +15,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 client.connect(err => {
   const products = client.db("emaJohnStore").collection("products");
+  const orderCollection = client.db("emaJohnStore").collection("orders");
   
   app.post('/addProduct', (req,res) => {
       const product = req.body;
       products.insertMany(product)
+      .then(result => {
+          console.log(result);
+      })
+  })
+
+  app.post('/addOrder', (req,res) => {
+      const order = req.body;
+      orderCollection.insertOne(order)
       .then(result => {
           console.log(result);
       })
